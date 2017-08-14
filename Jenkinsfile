@@ -7,13 +7,13 @@ stage('build') {
         checkout scm
         def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
-        sh "build"
+        sh "echo build"
     }
 }
 
 stage('build docker image') {
     node {
-        sh "build docker"
+        echo "build docker"
     }
 }
 
@@ -49,7 +49,7 @@ if (branch_type == "dev") {
             input "Do you want to start a release?"
         }
         node {
-            sh "release to dev"
+            sh "echo release to dev"
         }
     }
 }
@@ -60,7 +60,7 @@ if (branch_type == "release") {
             input "Is the release finished?"
         }
         node {
-            sh "relese to qa"
+            sh "echo relese to qa"
         }
     }
 }
@@ -71,7 +71,7 @@ if (branch_type == "hotfix") {
             input "Is the hotfix finished?"
         }
         node {
-            sh "hotfix to qa"
+            sh "echo hotfix to qa"
         }
     }
 }
