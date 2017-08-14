@@ -60,7 +60,7 @@ if (branch_type == "release") {
             input "Is the release finished?"
         }
         node {
-            sh "echo relese to qa"
+            sh "echo relese to staging"
         }
     }
 }
@@ -71,14 +71,13 @@ if (branch_type == "hotfix") {
             input "Is the hotfix finished?"
         }
         node {
-            sh "echo hotfix to qa"
+            sh "echo hotfix to staging"
         }
     }
 }
 
 // Utility functions
 def get_branch_type(String branch_name) {
-    //Must be specified according to <flowInitContext> configuration of jgitflow-maven-plugin in pom.xml
     def dev_pattern = ".*development"
     def release_pattern = ".*release/.*"
     def feature_pattern = ".*feature/.*"
