@@ -6,7 +6,7 @@ stage('build') {
     node {
         checkout scm
         def v = version()
-        currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
+        currentBuild.displayName = "${env.BRANCH_NAME}-${v}.${env.BUILD_NUMBER}"
         sh "echo build"
     }
 }
