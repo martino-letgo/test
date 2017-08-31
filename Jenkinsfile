@@ -7,37 +7,52 @@ stage('build') {
         checkout scm
         def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}.${env.BUILD_NUMBER}"
-        sh "echo build"
+        echo "Building"
+        sh "sleep 10s"
+        echo "Unit Tests"
     }
 }
 
-stage('unit test') {
-    node {
-        echo "unit test"
-    }
-}
 
 def branch_type = get_branch_type "${env.BRANCH_NAME}"
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
+if (branch_type == "dev" || branch_type == "release" ){
+    stage('Archiving package'){
+        node{
+            echo "package archived to S3"
+        }
+    }
+}
+    
+    
+//deply to the right environment
 if (branch_deployment_environment) {
     stage('deploy') {
         if (branch_deployment_environment == "prod") {
             timeout(time: 1, unit: 'DAYS') {
                 input "Deploy to ${branch_deployment_environment} ?"
             }
-            sh "echo Deploying to ${branch_deployment_environment}"
         }
         node {
             sh "echo Deploying to ${branch_deployment_environment}"
             //TODO specify the deployment
         }
     }
-
-    if (branch_deployment_environment != "prod") {
-        stage('integration tests') {
+    // running post deploy integration tests 
+    if (branch_deployment_environment == "dev") {
+        stage('e2e smoke test') {
             node {
-                sh "echo Running integration tests in ${branch_deployment_environment}"
+                sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
+                //TODO do the actual tests
+            }
+        }
+    }
+    
+    if (branch_deployment_environment == "release") {
+        stage('e2e regression test') {
+            node {
+                sh "echo Running e2e regression tests in ${branch_deployment_environment}"
                 //TODO do the actual tests
             }
         }
