@@ -54,7 +54,7 @@ if (branch_deployment_environment) {
         }
     }
     
-    if (branch_deployment_environment == "release") {
+    if (branch_deployment_environment == "staging") {
         stage('e2e regression test') {
             node {
                 sh "echo Running e2e regression tests in ${branch_deployment_environment}"
