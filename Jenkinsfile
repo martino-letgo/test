@@ -17,6 +17,8 @@ stage('build') {
 def branch_type = get_branch_type "${env.BRANCH_NAME}"
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
+sh "echo branch_type to ${branch_type}"
+
 if (branch_type == "dev" || branch_type == "release" ){
     stage('Archiving package'){
         node{
