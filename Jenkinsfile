@@ -43,6 +43,7 @@ if (branch_deployment_environment) {
             //TODO specify the deployment
         }
     }
+    
     // running post deploy integration tests 
     if (branch_deployment_environment == "dev") {
         stage('e2e smoke test') {
@@ -61,31 +62,23 @@ if (branch_deployment_environment) {
             }
         }
     }
-}
 
-if (branch_type == "dev") {
-    stage('start release') 
-        node {
-            sh "echo release to DEV"
-        }
-    }
-}
 
-if (branch_type == "release") {
-    stage('finish release') 
-        node {
-            sh "echo relese to STAGING"
-        }
-    }
-}
-
-if (branch_type == "hotfix") {
-    stage('finish hotfix') {
-        timeout(time: 1, unit: 'HOURS') {
-            input "Is the hotfix finished?"
-        }
-        node {
-            sh "echo hotfix to staging"
+    if (branch_type == "release") {
+        stage('finish release') 
+            node {
+                sh "echo relese to STAGING"
+            }
+       }
+    
+    if (branch_type == "hotfix") {
+        stage('finish hotfix') {
+            timeout(time: 1, unit: 'HOURS') {
+                input "Is the hotfix finished?"
+            }
+            node {
+                sh "echo hotfix to staging"
+            }
         }
     }
 }
