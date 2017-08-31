@@ -98,7 +98,7 @@ if (branch_type == "hotfix") {
 
 // Utility functions
 def get_branch_type(String branch_name) {
-    def dev_pattern = ".*development"
+    def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
     def feature_pattern = ".*feature/.*"
     def hotfix_pattern = ".*hotfix/.*"
