@@ -64,23 +64,17 @@ if (branch_deployment_environment) {
 }
 
 if (branch_type == "dev") {
-    stage('start release') {
-        timeout(time: 1, unit: 'HOURS') {
-            input "Do you want to start a release?"
-        }
+    stage('start release') 
         node {
-            sh "echo release to dev"
+            sh "echo release to DEV"
         }
     }
 }
 
 if (branch_type == "release") {
-    stage('finish release') {
-        timeout(time: 1, unit: 'HOURS') {
-            input "Is the release finished?"
-        }
+    stage('finish release') 
         node {
-            sh "echo relese to staging"
+            sh "echo relese to STAGING"
         }
     }
 }
