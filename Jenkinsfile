@@ -49,6 +49,7 @@ if (branch_deployment_environment) {
         stage('e2e smoke test') {
             node {
                 sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
+				sh "npm install"
                 sh "npm run test-remote"
             }
         }
@@ -58,7 +59,8 @@ if (branch_deployment_environment) {
         stage('e2e regression test') {
             node {
                 sh "echo Running e2e regression tests in ${branch_deployment_environment}"
-                sh "npm run test-remote"
+                sh "npm install"
+				sh "npm run test-remote"
             }
         }
     }
