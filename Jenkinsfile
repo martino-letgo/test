@@ -25,8 +25,8 @@ if (branch_deployment_environment) {
         if (branch_deployment_environment == "prod") {
             timeout(time: 1, unit: 'DAYS') {
                 input "Deploy to ${branch_deployment_environment} ?"
-                sh "echo Deploying to ${branch_deployment_environment}"
             }
+            sh "echo Deploying to ${branch_deployment_environment}"
         }
         node {
             sh "echo Deploying to ${branch_deployment_environment}"
