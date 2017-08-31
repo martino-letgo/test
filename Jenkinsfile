@@ -61,8 +61,8 @@ if (branch_deployment_environment) {
             }
         }
     }
+  }
 }
-
 
 if (branch_type == "release") {
     stage('finish release') 
