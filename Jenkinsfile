@@ -11,9 +11,9 @@ stage('build') {
     }
 }
 
-stage('build docker image') {
+stage('unit test') {
     node {
-        echo "build docker"
+        echo "unit test"
     }
 }
 
@@ -25,6 +25,7 @@ if (branch_deployment_environment) {
         if (branch_deployment_environment == "prod") {
             timeout(time: 1, unit: 'DAYS') {
                 input "Deploy to ${branch_deployment_environment} ?"
+                sh "echo Deploying to ${branch_deployment_environment}"
             }
         }
         node {
