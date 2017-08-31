@@ -63,13 +63,6 @@ if (branch_deployment_environment) {
     }
 }
 
-if (branch_type == "dev") {
-    stage('start release') 
-        node {
-            sh "echo release to DEV"
-        }
-    }
-}
 
 if (branch_type == "release") {
     stage('finish release') 
