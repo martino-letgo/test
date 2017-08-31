@@ -6,7 +6,7 @@ stage('build') {
     node {
         checkout scm
         def v = version()
-        currentBuild.displayName = "${env.BRANCH_NAME}-${v}.${env.BUILD_NUMBER}"
+        currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
         echo "Building"
         sh "sleep 10s"
         echo "Unit Tests"
@@ -63,7 +63,6 @@ if (branch_deployment_environment) {
         }
     }
 
-
     if (branch_type == "release") {
         stage('finish release') 
             node {
@@ -79,6 +78,7 @@ if (branch_deployment_environment) {
             node {
                 sh "echo hotfix to staging"
             }
+
         }
     }
 }
