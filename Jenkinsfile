@@ -61,16 +61,14 @@ if (branch_deployment_environment) {
             }
         }
     }
-  }
-}
+
 
 if (branch_type == "release") {
     stage('finish release') 
         node {
             sh "echo relese to STAGING"
         }
-    }
-}
+   }
 
 if (branch_type == "hotfix") {
     stage('finish hotfix') {
