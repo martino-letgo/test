@@ -52,6 +52,15 @@ if (branch_deployment_environment) {
 				sh "npm install"
                 sh "npm run test-remote -- --spec src/features/search.feature"
 		junit '**/junit-results/*.xml'
+		script {
+            		allure([
+			    includeProperties: false,
+			    jdk: '',
+			    properties: [],
+			    reportBuildPolicy: 'ALWAYS',
+			    results: [[path: 'report/allure-results']]
+            		])
+    		}
             }
         }
     }
@@ -63,6 +72,15 @@ if (branch_deployment_environment) {
                 sh "npm install"
 		sh "npm run test-remote -- --spec src/features/search.feature"
 		junit '**/junit-results/*.xml'
+		script {
+            		allure([
+			    includeProperties: false,
+			    jdk: '',
+			    properties: [],
+			    reportBuildPolicy: 'ALWAYS',
+			    results: [[path: 'report/allure-results']]
+            		])
+    		}    
             }
         }
     }
