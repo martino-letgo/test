@@ -51,6 +51,7 @@ if (branch_deployment_environment) {
                 sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
 				sh "npm install"
                 sh "npm run test-remote -- --spec src/features/search.feature"
+		junit '**/junit-results/*.xml'
             }
         }
     }
@@ -61,6 +62,7 @@ if (branch_deployment_environment) {
                 sh "echo Running e2e regression tests in ${branch_deployment_environment}"
                 sh "npm install"
 		sh "npm run test-remote -- --spec src/features/search.feature"
+		junit '**/junit-results/*.xml'
             }
         }
     }
