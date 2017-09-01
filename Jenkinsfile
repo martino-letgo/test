@@ -50,7 +50,7 @@ if (branch_deployment_environment) {
             node {
                 sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
 				sh "npm install"
-                sh "npm run test-local"
+                sh "npm run test-remote --  --spec src/features/search.feature"
             }
         }
     }
@@ -60,7 +60,7 @@ if (branch_deployment_environment) {
             node {
                 sh "echo Running e2e regression tests in ${branch_deployment_environment}"
                 sh "npm install"
-		sh "npm run test-local"
+		sh "npm run test-remote --  --spec src/features/search.feature"
             }
         }
     }
