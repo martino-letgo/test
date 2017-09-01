@@ -55,7 +55,7 @@ exports.config = {
     // out the Sauce Labs platform configurator - a great tool to configure your
     // capabilities: https://docs.saucelabs.com/reference/platforms-configurator
     capabilities: [{
-        browserName: 'chrome',
+        browserName: 'firefox',
 
       chromeOptions: {
         args: [
