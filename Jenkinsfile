@@ -49,16 +49,38 @@ if (branch_deployment_environment) {
         stage('e2e smoke test') {
             node {
                 sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
-                //TODO do the actual tests
+				sh "npm install"
+                sh "npm run test-remote -- --spec src/features/search.feature"
+		junit '**/junit-results/*.xml'
+		script {
+            		allure([
+			    includeProperties: false,
+			    jdk: '',
+			    properties: [],
+			    reportBuildPolicy: 'ALWAYS',
+			    results: [[path: 'report/allure-results']]
+            		])
+    		}
             }
         }
     }
     
-    if (branch_deployment_environment == "release") {
+    if (branch_deployment_environment == "staging") {
         stage('e2e regression test') {
             node {
                 sh "echo Running e2e regression tests in ${branch_deployment_environment}"
-                //TODO do the actual tests
+                sh "npm install"
+		sh "npm run test-remote -- --spec src/features/search.feature"
+		junit '**/junit-results/*.xml'
+		script {
+            		allure([
+			    includeProperties: false,
+			    jdk: '',
+			    properties: [],
+			    reportBuildPolicy: 'ALWAYS',
+			    results: [[path: 'report/allure-results']]
+            		])
+    		}    
             }
         }
     }
