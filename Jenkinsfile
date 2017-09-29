@@ -2,7 +2,7 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
-def branch_type = get_branch_type "${env.BRANCH_NAME}"
+def branch_type = get_branch_type(${env.BRANCH_NAME})
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
 
@@ -38,7 +38,8 @@ switch(branch_type) {
 }
 
 // Utility functions
-def get_branch_type(String branch_name) {
+def 
+	(String branch_name) {
     def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
     def feature_pattern = ".*feature/.*"
