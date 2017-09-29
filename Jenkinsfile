@@ -8,8 +8,6 @@ def branch_deployment_environment = get_branch_deployment_environment branch_typ
 
 
 switch(branch_type) {
-	sh "echo branch_type to ${branch_type}"
-	
 	case "dev":
     		node { build() }
 		node { uploadToS3()}
@@ -37,30 +35,6 @@ switch(branch_type) {
   	default:
     		throw err
     		break
-}
-
-
-    
-
-
-    
-    
-
-    
-    
-
-    
-    if (branch_type == "hotfix") {
-        stage('finish hotfix') {
-            timeout(time: 1, unit: 'HOURS') {
-                input "Is the hotfix finished?"
-            }
-            node {
-                sh "echo hotfix to staging"
-            }
-
-        }
-    }
 }
 
 // Utility functions
