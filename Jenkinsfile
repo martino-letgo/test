@@ -76,7 +76,7 @@ def build(){
 		checkout scm
 		def v = version()
 		currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-		echo "Building"
+		echo "Building brench type ${branch_type}"
 		sh "sleep 10s"
 		echo "Unit Tests"
 		echo "Upload to S3"
