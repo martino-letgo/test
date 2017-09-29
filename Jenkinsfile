@@ -14,7 +14,7 @@ switch(branch_type) {
 		node { deploy(branch_deployment_environment) }
 		node { e2eTest() }
     		break
-  	case "master"
+  	case "master":
     		node { build() }
 		node { uploadToS3()}
 		node { deploy(branch_deployment_environment) }
