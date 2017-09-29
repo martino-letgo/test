@@ -2,18 +2,6 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
-stage('build') {
-    node {
-        checkout scm
-        def v = version()
-        currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-        echo "Building"
-        sh "sleep 10s"
-        echo "Unit Tests"
-    }
-}
-
-
 def branch_type = get_branch_type "${env.BRANCH_NAME}"
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
