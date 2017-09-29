@@ -17,80 +17,50 @@ stage('build') {
 def branch_type = get_branch_type "${env.BRANCH_NAME}"
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
-    node {
-			sh "echo branch_type to ${branch_type}"
-		}
 
-if (branch_type == "dev" || branch_type == "release" ){
-    stage('Archiving package'){
-        node{
-            echo "package archived to S3"
-        }
-    }
+
+switch(branch_type) {
+	sh "echo branch_type to ${branch_type}"
+	
+	case "dev":
+    		node { build() }
+		node { uploadToS3()}
+		node { deploy(branch_deployment_environment) }
+		node { e2eTest() }
+    		break
+  	case "master"
+    		node { build() }
+		node { uploadToS3()}
+		node { deploy(branch_deployment_environment) }
+		node { e2eTest() }
+    		break
+  	case "release":
+		node { build() }
+		node {uploadToS3()}
+		node { deploy(branch_deployment_environment) }
+		node { e2eTest() }
+    		break
+  	case "feature":
+		node { build() }	
+		break
+	case "PR":
+		node { build() }	
+		break
+  	default:
+    		throw err
+    		break
 }
-    
-    
-//deply to the right environment
-if (branch_deployment_environment) {
-    stage('deploy') {
-        if (branch_deployment_environment == "prod") {
-            timeout(time: 1, unit: 'DAYS') {
-                input "Deploy to ${branch_deployment_environment} ?"
-            }
-        }
-        node {
-            sh "echo Deploying to ${branch_deployment_environment}"
-            //TODO specify the deployment
-        }
-    }
-    
-    // running post deploy integration tests 
-    if (branch_deployment_environment == "dev") {
-        stage('e2e smoke test') {
-            node {
-                sh "echo Running e2e smoke tests in ${branch_deployment_environment}"
-				sh "npm install"
-                sh "npm run test-remote -- --spec src/features/search.feature"
-		junit '**/junit-results/*.xml'
-		script {
-            		allure([
-			    includeProperties: false,
-			    jdk: '',
-			    properties: [],
-			    reportBuildPolicy: 'ALWAYS',
-			    results: [[path: 'report/allure-results']]
-            		])
-    		}
-            }
-        }
-    }
-    
-    if (branch_deployment_environment == "staging") {
-        stage('e2e regression test') {
-            node {
-                sh "echo Running e2e regression tests in ${branch_deployment_environment}"
-                sh "npm install"
-		sh "npm run test-remote -- --spec src/features/search.feature"
-		junit '**/junit-results/*.xml'
-		script {
-            		allure([
-			    includeProperties: false,
-			    jdk: '',
-			    properties: [],
-			    reportBuildPolicy: 'ALWAYS',
-			    results: [[path: 'report/allure-results']]
-            		])
-    		}    
-            }
-        }
-    }
 
-    if (branch_type == "release") {
-        stage('finish release') 
-            node {
-                sh "echo relese to STAGING"
-            }
-       }
+
+    
+
+
+    
+    
+
+    
+    
+
     
     if (branch_type == "hotfix") {
         stage('finish hotfix') {
@@ -137,6 +107,44 @@ def get_branch_deployment_environment(String branch_type) {
     } else {
         return null;
     }
+}
+
+def build(){
+	stage ("build"){
+		checkout scm
+		def v = version()
+		currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+		echo "Building"
+		sh "sleep 10s"
+		echo "Unit Tests"
+		echo "Upload to S3"
+	}
+}
+
+def uploadToS3(){
+	stage ("Upload artifact to S3"){
+		echo "upload artifact to S3"
+	}
+}
+
+def deploy(String environment){
+	stage ("Deploy to ${environment}"){
+		if (branch_deployment_environment == "prod") {
+            		timeout(time: 1, unit: 'DAYS') {
+                	input "Deploy to ${branch_deployment_environment} ?"
+            		}
+		}
+		node {
+		    sh "echo Deploying to ${branch_deployment_environment}"
+		    //TODO specify the deployment
+		}
+	}
+	
+	
+}
+
+def e2eTest(){
+	sh "echo Running e2e regression tests in ${branch_deployment_environment}"
 }
 
 def mvn(String goals) {
