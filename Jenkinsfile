@@ -2,6 +2,9 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
+
+node { build() }
+
 def branch_type = get_branch_type "${env.BRANCH_NAME}"
 def branch_deployment_environment = get_branch_deployment_environment branch_type
 
@@ -12,29 +15,24 @@ node {
 
 
 switch(branch_type) {
-	case "dev":
-    		node { build() }
+	case "dev":    		
 		node { uploadToS3()}
 		node { deploy(branch_deployment_environment) }
 		node { e2eTest() }
     		break
   	case "master":
-    		node { build() }
 		node { uploadToS3()}
 		node { deploy(branch_deployment_environment) }
 		node { e2eTest() }
     		break
   	case "release":
-		node { build() }
 		node {uploadToS3()}
 		node { deploy(branch_deployment_environment) }
 		node { e2eTest() }
     		break
   	case "feature":
-		node { build() }	
 		break
 	case "PR":
-		node { build() }	
 		break
   	default:
     		throw err
@@ -42,8 +40,7 @@ switch(branch_type) {
 }
 
 // Utility functions
-def 
-	(String branch_name) {
+def get_branch_type(String branch_name) {
     def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
     def feature_pattern = ".*feature/.*"
