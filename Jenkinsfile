@@ -32,6 +32,7 @@ switch(branch_type) {
 			uploadToS3()
 			deploy(branch_deployment_environment)
 			e2eTest() 
+			deploy("prod")
 		}
     		break
   	case "feature":
