@@ -2,12 +2,14 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
-//make a new build
-node { build() }
-
 //global vars
 branch_type = get_branch_type "${env.BRANCH_NAME}"
 branch_deployment_environment = get_branch_deployment_environment branch_type
+
+//make a new build
+node { build() }
+
+
 
 
 
