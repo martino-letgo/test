@@ -2,12 +2,11 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
-def branch_type = get_branch_type "${env.BRANCH_NAME}"
-def branch_deployment_environment = get_branch_deployment_environment branch_type
-
+//make a new build
 node { build() }
 
-
+def branch_type = get_branch_type "${env.BRANCH_NAME}"
+def branch_deployment_environment = get_branch_deployment_environment branch_type
 
 node {
 	sh "echo branch_type to ${branch_type}"
@@ -17,19 +16,25 @@ node {
 
 switch(branch_type) {
 	case "dev":    		
-		node { uploadToS3()}
-		node { deploy(branch_deployment_environment) }
-		node { e2eTest() }
+		node { 
+			uploadToS3()
+			deploy(branch_deployment_environment)
+			e2eTest() 
+		}
     		break
   	case "master":
-		node { uploadToS3()}
-		node { deploy(branch_deployment_environment) }
-		node { e2eTest() }
+		node { 
+			uploadToS3()
+			deploy(branch_deployment_environment)
+			e2eTest() 
+		}
     		break
   	case "release":
-		node {uploadToS3()}
-		node { deploy(branch_deployment_environment) }
-		node { e2eTest() }
+		node {
+			uploadToS3()
+			deploy(branch_deployment_environment)
+			e2eTest() 
+		}
     		break
   	case "feature":
 		break
