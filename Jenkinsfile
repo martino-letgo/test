@@ -6,21 +6,14 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 branch_type = get_branch_type "${env.BRANCH_NAME}"
 branch_deployment_environment = get_branch_deployment_environment branch_type
 
-//make a new build
-node { build() }
 
 
-
-
-
-node {
-
-	sh "echo branch_type to ${branch_type}"
-}
-
-
-
+//choose steps based on the branch_type
 switch(branch_type) {
+	// do a fresh build
+	node { 
+		build()
+	}
 	case "dev":    		
 		node { 
 			uploadToS3()
@@ -51,7 +44,6 @@ switch(branch_type) {
     		break
 }
 
-// Utility functions
 // Utility functions
 def get_branch_type(String branch_name) {
     def dev_pattern = ".*dev"
@@ -89,14 +81,14 @@ def get_branch_deployment_environment(String branch_type) {
 def build(){
 	stage ("build"){
 		checkout scm
-		def v = version()
-		currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-		//echo "Building brench type ${branch_type}"
+		setVersion()		
+		echo "Building brench type: ${branch_type}"
 		sh "sleep 10s"
 		echo "Unit Tests"
 		echo "Upload to S3"
 	}
 }
+
 
 def uploadToS3(){
 	stage ("Upload artifact to S3"){
@@ -133,6 +125,6 @@ def mvn(String goals) {
     }
 }
 
-def version() {
-    return 1.0
+def setVersion() {
+    currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 }
