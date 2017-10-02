@@ -47,6 +47,7 @@ switch(branch_type) {
 }
 
 // Utility functions
+// Utility functions
 def get_branch_type(String branch_name) {
     def dev_pattern = ".*dev"
     def release_pattern = ".*release/.*"
