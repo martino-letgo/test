@@ -105,7 +105,7 @@ def uploadToS3(){
 
 def deploy(String environment){
 	stage ("Deploy to ${environment}"){
-		if (${environment} == "prod") {
+		if ( environment == "prod") {
             		timeout(time: 1, unit: 'DAYS') {
                 		input "Deploy to ${environment} ?"
 				sh "echo Deploying to ${environment}"
