@@ -10,12 +10,9 @@ branch_deployment_environment = get_branch_deployment_environment branch_type
 
 //choose steps based on the branch_type
 switch(branch_type) {
-	// do a fresh build
-	node { 
-		build()
-	}
 	case "dev":    		
-		node { 
+		node { 	
+			build()
 			uploadToS3()
 			deploy(branch_deployment_environment)
 			e2eTest() 
@@ -23,6 +20,7 @@ switch(branch_type) {
     		break
   	case "master":
 		node { 
+			build()
 			uploadToS3()
 			deploy(branch_deployment_environment)
 			e2eTest() 
@@ -30,19 +28,27 @@ switch(branch_type) {
     		break
   	case "release":
 		node {
+			build()
 			uploadToS3()
 			deploy(branch_deployment_environment)
 			e2eTest() 
 		}
     		break
   	case "feature":
+		node {
+			build()
+		}
 		break
 	case "PR":
+		node {
+			build()
+		}
 		break
   	default:
     		throw err
     		break
 }
+
 
 // Utility functions
 def get_branch_type(String branch_name) {
