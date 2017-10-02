@@ -105,13 +105,15 @@ def uploadToS3(){
 
 def deploy(String environment){
 	stage ("Deploy to ${environment}"){
-		if (branch_deployment_environment == "prod") {
+		if (${environment} == "prod") {
             		timeout(time: 1, unit: 'DAYS') {
-                	input "Deploy to ${branch_deployment_environment} ?"
+                		input "Deploy to ${environment} ?"
+				sh "echo Deploying to ${environment}"
+		    		//TODO specify the deployment				
             		}
 		}
 		node {
-		    sh "echo Deploying to ${branch_deployment_environment}"
+		    sh "echo Deploying to ${environment}"
 		    //TODO specify the deployment
 		}
 	}
