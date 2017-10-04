@@ -86,7 +86,7 @@ def get_branch_deployment_environment(String branch_type) {
 }
 
 def build(){
-	stage ("build"){
+	stage ("Build"){
 		checkout scm
 		setVersion()		
 		echo "Building brench type: ${branch_type}"
@@ -97,7 +97,7 @@ def build(){
 
 
 def uploadToS3(){
-	stage ("Upload artifact to S3"){
+	stage ("Upload to S3"){
 		echo "upload artifact to S3"
 	}
 }
@@ -115,7 +115,7 @@ def deploy(String environment){
 }
 
 def e2eTest(){
-	stage("Running e2e tests"){
+	stage("e2e tests"){
 		sh "echo Running e2e regression tests in ${branch_deployment_environment}"
 	}
 }
