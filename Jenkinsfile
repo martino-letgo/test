@@ -90,7 +90,7 @@ def get_branch_type(String branch_name) {
     def feature_pattern = ".*feature/.*"
     def hotfix_pattern = ".*hotfix/.*"
     def master_pattern = ".*master"
-    def pr_pattern     = "^PR-\d+$"	
+    def pr_pattern     = "/^PR-\d+$/"	
 
     if (branch_name =~ dev_pattern) {
         return "dev"
