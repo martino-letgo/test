@@ -115,7 +115,9 @@ def deploy(String environment){
 }
 
 def e2eTest(){
-	sh "echo Running e2e regression tests in ${branch_deployment_environment}"
+	stage("Running e2e tests){
+		sh "echo Running e2e regression tests in ${branch_deployment_environment}"
+	}
 }
 
 def mvn(String goals) {
