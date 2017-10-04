@@ -32,7 +32,7 @@ switch(branch_type) {
 			uploadToS3()
 			deploy(branch_deployment_environment)
 			e2eTest() 
-			deploy("prod")
+			deploy("Prod")
 		}
     		break
   	case "feature":
@@ -75,11 +75,11 @@ def get_branch_type(String branch_name) {
 
 def get_branch_deployment_environment(String branch_type) {
     if (branch_type == "dev") {
-        return "dev"
+        return "DEV"
     } else if (branch_type == "release") {
-        return "staging"
+        return "STG"
     } else if (branch_type == "master") {
-        return "prod"
+        return "PROD"
     } else {
         return null;
     }
