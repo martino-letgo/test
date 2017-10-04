@@ -90,9 +90,8 @@ def build(){
 		checkout scm
 		setVersion()		
 		echo "Building brench type: ${branch_type}"
-		sh "sleep 10s"
+		sh "sleep 5s"
 		echo "Unit Tests"
-		echo "Upload to S3"
 	}
 }
 
@@ -107,18 +106,12 @@ def deploy(String environment){
 	stage ("Deploy to ${environment}"){
 		if ( environment == "prod") {
             		timeout(time: 1, unit: 'DAYS') {
-                		input "Deploy to ${environment} ?"
-				sh "echo Deploying to ${environment}"
-		    		//TODO specify the deployment				
+                		input "Deploy to ${environment} ?"				
             		}
 		}
-		node {
-		    sh "echo Deploying to ${environment}"
-		    //TODO specify the deployment
-		}
-	}
-	
-	
+		//TODO specify the deployment
+		sh "echo Deploying to ${environment}"
+	}	
 }
 
 def e2eTest(){
