@@ -58,7 +58,7 @@ def build(){
 
 def uploadToS3(){
 	stage ("Upload to S3"){
-		echo "upload artifact ${JOB_NAME}  + to S3"
+		echo "upload artifact " + currentBuild.displayName + " to S3"
 		
 	}
 }
