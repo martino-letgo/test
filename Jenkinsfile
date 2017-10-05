@@ -133,5 +133,5 @@ def mvn(String goals) {
 }
 
 def setVersion() {
-    currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}".replaceAll("[\\`\\*{}\\[\\]()>#\\+:\\~'%\\^&@<\\?;,\"!\\$=\\|\\.]", "-")
+    currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}".replaceAll("[`*{}\\[\\]()>#+:~'%^&@<?;,\"!$=|.]", "-")
 }
