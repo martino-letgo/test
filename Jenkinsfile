@@ -58,7 +58,8 @@ def build(){
 
 def uploadToS3(){
 	stage ("Upload to S3"){
-		echo "upload artifact to S3"
+		echo "upload artifact " + getDisplayName "  + to S3"
+		
 	}
 }
 
@@ -134,4 +135,16 @@ def mvn(String goals) {
 
 def setVersion() {
     currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}".replaceAll("/", "-")
+}
+
+def getDisplayName() {
+    def project = currentBuild.rawBuild.project
+
+    // for multibranch pipelines
+    if (project.parent instanceof WorkflowMultiBranchProject) {
+        return "${project.parent.displayName} (${project.displayName})"
+    } else {
+        // for all other projects
+        return project.displayName
+    }
 }
