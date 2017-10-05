@@ -58,7 +58,7 @@ def build(){
 
 def uploadToS3(){
 	stage ("Upload to S3"){
-		echo "upload artifact " + currentBuild.displayName + " to S3"
+		echo "upload artifact " + getDisplayName() + " to S3"
 		
 	}
 }
@@ -137,6 +137,6 @@ def setVersion() {
     currentBuild.displayName = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}".replaceAll("/", "-")
 }
 
-def getDisplayName() {
+String getDisplayName() {
     return currentBuild.displayName
 }
