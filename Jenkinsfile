@@ -138,13 +138,5 @@ def setVersion() {
 }
 
 def getDisplayName() {
-    def project = currentBuild.rawBuild.project
-
-    // for multibranch pipelines
-    if (project.parent instanceof WorkflowMultiBranchProject) {
-        return "${project.parent.displayName} (${project.displayName})"
-    } else {
-        // for all other projects
-        return project.displayName
-    }
+    return currentBuild.displayName
 }
